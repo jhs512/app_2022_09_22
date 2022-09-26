@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   batch:
     job:
       names: ${job.name:NONE}
@@ -11,6 +13,8 @@ spring:
     password:
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create
 logging:
   level:
     com.ll.exam.app_2022_09_22: debug
