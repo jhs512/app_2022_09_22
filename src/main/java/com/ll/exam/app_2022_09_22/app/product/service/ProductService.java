@@ -14,15 +14,18 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Product create(String name, int price, int wholesalePrice, String makerShopName, List<ProductOption> options) {
+    public Product create(String name, int salePrice, int wholesalePrice, String makerShopName, List<ProductOption> options) {
+        int price = (int) Math.ceil(wholesalePrice * 1.6) / 100 * 100;
+
         Product product = Product.builder()
                 .name(name)
+                .salePrice(salePrice)
                 .price(price)
                 .wholesalePrice(wholesalePrice)
                 .makerShopName(makerShopName)
                 .build();
 
-        for ( ProductOption option : options ) {
+        for (ProductOption option : options) {
             product.addOption(option);
         }
 
