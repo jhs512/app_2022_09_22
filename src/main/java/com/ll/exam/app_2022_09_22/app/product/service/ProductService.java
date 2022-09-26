@@ -14,10 +14,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Product create(String name, int price, String makerShopName, List<ProductOption> options) {
+    public Product create(String name, int price, int wholesalePrice, String makerShopName, List<ProductOption> options) {
         Product product = Product.builder()
                 .name(name)
                 .price(price)
+                .wholesalePrice(wholesalePrice)
                 .makerShopName(makerShopName)
                 .build();
 
