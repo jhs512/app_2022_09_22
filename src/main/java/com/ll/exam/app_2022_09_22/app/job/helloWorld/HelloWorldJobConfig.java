@@ -1,4 +1,4 @@
-package com.ll.exam.app_2022_09_22.job.helloWorld;
+package com.ll.exam.app_2022_09_22.app.job.helloWorld;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
