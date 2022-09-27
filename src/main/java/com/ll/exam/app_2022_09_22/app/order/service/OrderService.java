@@ -3,6 +3,7 @@ package com.ll.exam.app_2022_09_22.app.order.service;
 import com.ll.exam.app_2022_09_22.app.cart.entity.CartItem;
 import com.ll.exam.app_2022_09_22.app.cart.service.CartService;
 import com.ll.exam.app_2022_09_22.app.member.entity.Member;
+import com.ll.exam.app_2022_09_22.app.member.service.MemberService;
 import com.ll.exam.app_2022_09_22.app.order.entity.Order;
 import com.ll.exam.app_2022_09_22.app.order.entity.OrderItem;
 import com.ll.exam.app_2022_09_22.app.order.repository.OrderRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class OrderService {
+    private final MemberService memberService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
 
@@ -59,5 +61,23 @@ public class OrderService {
         orderRepository.save(order);
 
         return order;
+    }
+
+    @Transactional
+    public void payByRestCashOnly(Order order) {
+        Member orderer = order.getMember();
+
+        long restCash = orderer.getRestCash();
+
+        int payPrice = order.calculatePayPrice();
+
+        if (payPrice > restCash) {
+            throw new RuntimeException("예치금이 부족합니다.");
+        }
+
+        memberService.addCash(orderer, payPrice * -1, "주문결제__예치금결제");
+
+        order.setPaymentDone();
+        orderRepository.save(order);
     }
 }
