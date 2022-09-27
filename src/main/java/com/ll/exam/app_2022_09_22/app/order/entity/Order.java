@@ -57,4 +57,13 @@ public class Order extends BaseEntity {
             orderItem.setRefundDone();
         }
     }
+
+    public int getPayPrice() {
+        int payPrice = 0;
+        for ( OrderItem orderItem : orderItems ) {
+            payPrice += orderItem.getPayPrice();
+        }
+
+        return payPrice;
+    }
 }
