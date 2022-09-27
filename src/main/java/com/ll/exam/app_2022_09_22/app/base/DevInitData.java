@@ -48,17 +48,38 @@ public class DevInitData {
             Product product1 = productService.create("단가라 OPS", 68000, 45000, "청평화 A-1-15", Arrays.asList(new ProductOption("RED", "44"), new ProductOption("RED", "55"), new ProductOption("BLUE", "44"), new ProductOption("BLUE", "55")));
             Product product2 = productService.create("쉬폰 OPS", 72000, 55000, "청평화 A-1-15", Arrays.asList(new ProductOption("BLACK", "44"), new ProductOption("BLACK", "55"), new ProductOption("WHITE", "44"), new ProductOption("WHITE", "55")));
 
-            ProductOption productOption__RED_44 = product1.getProductOptions().get(0);
-            ProductOption productOption__BLUE_44 = product1.getProductOptions().get(2);
+            ProductOption product1Option__RED_44 = product1.getProductOptions().get(0);
+            ProductOption product1Option__BLUE_44 = product1.getProductOptions().get(2);
 
-            cartService.addItem(member1, productOption__RED_44, 1); // productOption__RED_44 총 수량 1
-            cartService.addItem(member1, productOption__RED_44, 2); // productOption__RED_44 총 수량 3
-            cartService.addItem(member1, productOption__BLUE_44, 1); // productOption__BLUE_44 총 수량 1
+            cartService.addItem(member1, product1Option__RED_44, 1); // productOption__RED_44 총 수량 1
+            cartService.addItem(member1, product1Option__RED_44, 2); // productOption__RED_44 총 수량 3
+            cartService.addItem(member1, product1Option__BLUE_44, 1); // productOption__BLUE_44 총 수량 1
 
             Order order1 = orderService.createFromCart(member1);
 
             int order1PayPrice = order1.calculatePayPrice();
             orderService.payByRestCashOnly(order1);
+
+            // 2번 주문 생성
+            // - 장바구니에 담기
+            // - 주문 생성
+
+            ProductOption product2Option__BLACK_44 = product2.getProductOptions().get(0);
+            ProductOption product2Option__WHITE_44 = product2.getProductOptions().get(2);
+
+            cartService.addItem(member2, product1Option__RED_44, 1);
+            cartService.addItem(member2, product2Option__BLACK_44, 2);
+            cartService.addItem(member2, product2Option__WHITE_44, 2);
+
+            Order order2 = orderService.createFromCart(member2);
+
+            log.debug("order2 payPrice : " + order2.calculatePayPrice());
+
+            memberService.addCash(member2, 370_000, "충전__무통장입금");
+
+            log.debug("member2 restCash : " + member2.getRestCash());
+
+            orderService.payByRestCashOnly(order2);
         };
     }
 }
