@@ -1,10 +1,7 @@
 package com.ll.exam.app_2022_09_22.app.product.entity;
 
 import com.ll.exam.app_2022_09_22.app.base.entity.BaseEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
@@ -16,6 +13,7 @@ import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
